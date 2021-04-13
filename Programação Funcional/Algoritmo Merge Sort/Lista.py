@@ -1,6 +1,5 @@
 from Detour import *
-
-myList = list((1, 2, 3))
+from math import sqrt
 
 
 #dividir listas
@@ -74,5 +73,49 @@ def filterL(L, f):
         return (H, T) if f(H) else T
 
 
+#filtrar numeros pares
 def filterOdds(L):
     return filterL(L, lambda x: x % 2)
+
+
+#filtrar str
+def filterStrs(L):
+    return filterL(L, lambda x: isinstance(x, str))
+
+
+#verificar se e primo
+def prime(a):
+    if a < 2:
+        return False
+
+    for x in range(2, int(sqrt(a)) + 1):
+        if a % x == 0:
+            return False
+
+    return True
+
+
+#filtrar primos
+def filterPrimes(L):
+    return filterL(L, prime)
+
+
+#concatenar listas
+def appendL(L1, L2):
+    if not L1:
+        return L2
+    else:
+        return (head(L1), appendL(tail(L1), L2))
+
+
+#QuickSort = ordenar lista de ordem ascendente
+def qSort(L):
+    if not L:
+        return None
+    else:
+        H = head(L)
+        T = tail(L)
+        Small = qSort(filterL(T, lambda x: x < H))
+        Bigs = qSort(filterL(T, lambda x: x >= H))
+
+        return appendL(appendL(Smalls, (H, None)), Bigs)
